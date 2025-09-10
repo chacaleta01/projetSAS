@@ -16,7 +16,7 @@ typedef struct
 typedef struct 
 {
     char name [20];
-    int planesNumber = 0;
+    int planesNumber;
     plane planes [200];
 
 } airport ;
@@ -26,6 +26,7 @@ plane Plane;
 
 int main(){
     int choice;
+    Master.planesNumber = 0;
 
     printf("--------bienvenue--------\n");
     printf("Entrez le nom de votre aeroport: ");
@@ -46,6 +47,7 @@ int main(){
      case 2:
         {
             printf("vous avez choisi l'ajout");
+            AddPlane();
 
         }break;
     case 3:
@@ -86,27 +88,28 @@ system("cls");
     
 
     printf("entrer le model d'avion: ");
-    scanf(" %[^\n]%*c", Master.planes.Capacity);
+    scanf(" %[^\n]%*c", Master.planes[Master.planesNumber].Model);
 
     printf("entrer la capacite d'avion: ");
-    scanf("%[^\n]%*c",Master.planes.Capacity);
+    scanf("%d",&Master.planes[Master.planesNumber].Capacity);
 
-    printf("choisir le statut d'avion");
+    printf("choisir le statut d'avion\n");
+    printf("1.Disponible\n2.En maintenance\n3.En vol");
     scanf("%d", &choice);
     do
     {
         switch (choice)
     {
-    case 1:{
-        printf("vous avez choisi 'disponible'");
+    case 1:
+        printf("vous avez choisi 'disponible'\n");
         strcpy(Master.planes[Master.planesNumber].Status, "Disponible");
-    }break;
+        break;
     case 2:{
-        printf("vous avez choisi 'En maintenance'");
+        printf("vous avez choisi 'En maintenance'\n");
         strcpy(Master.planes[Master.planesNumber].Status, "En maintenance");
     }break;   
     case 3:{
-        printf("vous avez choisi 'En vol'");
+        printf("vous avez choisi 'En vol'\n");
         strcpy(Master.planes[Master.planesNumber].Status, "En vol");
     }break;   
     
@@ -115,7 +118,7 @@ system("cls");
         break;
     }
         Master.planesNumber++;
-    } while (choice == 1 || choice == 2 || choice == 3);
+    } while (choice < 1 || choice > 3);
     
     
 
