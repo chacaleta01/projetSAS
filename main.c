@@ -77,7 +77,7 @@ int main(){
      case 6:
         {
             printf("vous avez choisi le tri\n");
-            SortPlanes(); // add the capacity / model of every plane  in the printf
+            SortPlanes();
         }break;
      case 7:
         {
