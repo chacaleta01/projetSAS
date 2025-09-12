@@ -8,6 +8,7 @@ void ModifyPlane();
 void DeletePlane();
 void SortPlanes();
 void Statistics();
+void Search();
 
 typedef struct 
 {
@@ -73,6 +74,7 @@ int main(){
      case 5:
         {
             printf("vous avez choisi la recherche\n");
+            Search()
         }break;
      case 6:
         {
@@ -366,4 +368,116 @@ void Statistics(){
     }
 
     return ;
+}
+
+void Search() {
+    int searchID, choice, verification = 0;
+    char searchModel[20];
+    plane temp;
+
+    printf("Choisir:\n1. Par ID.\n2. Par Model.\n");
+    scanf("%d", &choice);
+
+    switch (choice) {
+    case 1: {
+        int enumeration = 1;
+        for (int i = 0; i < Master.planesNumber; i++) {
+            for (int j = i+1; j < Master.planesNumber; j++) {
+                if (Master.planes[i].ID > Master.planes[j].ID) {
+                    plane tmp = Master.planes[i];
+                    Master.planes[i] = Master.planes[j];
+                    Master.planes[j] = tmp;
+                }
+            }
+        }
+
+        for (int i = 0; i < Master.planesNumber; i++) {
+            printf("ID d'avion %d est: %d\n", enumeration, Master.planes[i].ID);
+            enumeration++;
+        }
+
+        printf("Entrer l'ID de l'avion a rechercher: ");
+        scanf("%d", &searchID);
+
+        int left = 0, right = Master.planesNumber - 1;
+        while (left <= right) {
+            int middle = (left + right) / 2;
+            if (searchID == Master.planes[middle].ID) {
+                printf("Avion trouve:\nID: %d | Model: %s | Capacite: %d | Statut: %s\n",
+                       Master.planes[middle].ID,
+                       Master.planes[middle].Model,
+                       Master.planes[middle].Capacity,
+                       Master.planes[middle].Status);
+                verification = 1;
+                break;
+            } else if (searchID > Master.planes[middle].ID) {
+                left = middle + 1;
+            } else {
+                right = middle - 1;
+            }
+        }
+        if (!verification) {
+            printf("Aucun avion a l'ID = %d\n", searchID);
+        }
+        break;
+    }
+
+    case 2: {
+        int enumeration = 1;
+        for (int i = 0; i < Master.planesNumber; i++) {
+            for (int j = i+1; j < Master.planesNumber; j++) {
+                if (stricmp(Master.planes[i].Model, Master.planes[j].Model) > 0) {
+                    temp = Master.planes[i];
+                    Master.planes[i] = Master.planes[j];
+                    Master.planes[j] = temp;
+                }
+            }
+        }
+
+        for (int i = 0; i < Master.planesNumber; i++) {
+            printf("Le model d'avion %d est: %s\n", enumeration, Master.planes[i].Model);
+            enumeration++;
+        }
+
+        printf("Entrer le model de l'avion a rechercher: ");
+        scanf(" %[^\n]%*c", searchModel);
+
+        int left = 0, right = Master.planesNumber - 1, found = 0;
+        while (left <= right) {
+            int mid = (left + right) / 2;
+            int cmp = stricmp(Master.planes[mid].Model, searchModel);
+
+            if (cmp == 0) {
+                printf("Avions trouves avec le model %s:\n", searchModel);
+
+                int i = mid;
+                while (i >= 0 && stricmp(Master.planes[i].Model, searchModel) == 0) {
+                    i--;
+                }
+                i++;
+
+                while (i < Master.planesNumber && stricmp(Master.planes[i].Model, searchModel) == 0) {
+                    printf("L'id---->%d\nl'model---->%s\nl'capacite---->%d\nl'statut---->%s\n",Master.planes[mid].ID, Master.planes[mid].Model, Master.planes[mid].Capacity );
+                           
+                    i++;
+                }
+                found = 1;
+                break;
+            } else if (cmp < 0) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+
+        if (!found) {
+            printf("Aucun avion avec le model %s\n", searchModel);
+        }
+        break;
+    }
+
+    default:
+        printf("Choix invalide.\n");
+        return;
+    }
 }
