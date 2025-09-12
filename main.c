@@ -213,7 +213,7 @@ void ModifyPlane(){
 
 void DeletePlane(){
     system("cls");
-    int  id;
+    int  id, verif = -1;
     for (int i = 0; i < Master.planesNumber; i++)
     {
         printf("ID d'avion %d est: %d\n", i+1, Master.planes[i].ID);
@@ -226,20 +226,21 @@ void DeletePlane(){
     {   
         if (id == Master.planes[i].ID)
         {
-            for (int j = i+1; j < Master.planesNumber-1; j++)
-        {
-            Master.planes[j] = Master.planes[j+1];
-        }
-
-        } else
-        {
-            printf("Aucun avion avec l'ID %d n'a ete trouve.\n", id);
-            return;
+            verif = i;
         }
     }
-    Master.planesNumber--;
-    return;
-}
+    if (verif != -1)
+    {
+        for (int i = verif; i < Master.planesNumber-1; i++)
+        {
+            Master.planes[i].ID = Master.planes[i+1].ID;
+        }
+        Master.planesNumber--;
+    } else {
+        printf("l'ID est incorect\n");
+    }
+}    
+    
 
 void SortPlanes(){
     system("cls");
