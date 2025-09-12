@@ -158,7 +158,7 @@ void DisplayAirPort(){
 }
 
 void ModifyPlane(){
-    
+    system("cls");
     int id, choice;
     
     for (int i = 0; i < Master.planesNumber; i++)
@@ -195,7 +195,7 @@ void ModifyPlane(){
 
     default:
         printf("le choix indisponible. Ressayer.\n");
-        break;
+        return;
     }
         
     } while (choice < 1 || choice > 3);
@@ -205,10 +205,6 @@ void ModifyPlane(){
 
         printf("entrez la nouvelle capacite de votre avion: ");
         scanf("%d",&Master.planes[i].Capacity);
-        
-    } else
-    {
-        printf("Aucun avion avec l'ID %d n'a ete trouve.\n", id);
     } 
     
     }
@@ -216,7 +212,7 @@ void ModifyPlane(){
 }
 
 void DeletePlane(){
-
+    system("cls");
     int  id;
     for (int i = 0; i < Master.planesNumber; i++)
     {
@@ -230,7 +226,7 @@ void DeletePlane(){
     {   
         if (id == Master.planes[i].ID)
         {
-            for (int j = i; j < Master.planesNumber-1; j++)
+            for (int j = i+1; j < Master.planesNumber-1; j++)
         {
             Master.planes[j] = Master.planes[j+1];
         }
@@ -246,7 +242,7 @@ void DeletePlane(){
 }
 
 void SortPlanes(){
-
+    system("cls");
     int choice;
     plane temp;
     printf("chosir de trier par:\n1.Par capacite.\n2.Par Model.\n");
@@ -297,7 +293,7 @@ void SortPlanes(){
 }
 
 void Statistics(){
-
+    system("cls");
     int choice =0;
     int countDispo = 0, countMaintenance = 0, countVol = 0;
 
@@ -372,6 +368,7 @@ void Statistics(){
 }
 
 void SearchPlane() {
+    system("cls");
     int searchID, choice, verification = 0;
     char searchModel[20];
 
