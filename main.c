@@ -8,7 +8,7 @@ void ModifyPlane();
 void DeletePlane();
 void SortPlanes();
 void Statistics();
-void Search();
+void SearchPlane();
 
 typedef struct 
 {
@@ -74,7 +74,7 @@ int main(){
      case 5:
         {
             printf("vous avez choisi la recherche\n");
-            Search();
+            SearchPlane();
         }break;
      case 6:
         {
@@ -159,12 +159,12 @@ void DisplayAirPort(){
 
 void ModifyPlane(){
     
-    int id, enumeration = 1, choice;
+    int id, choice;
     
     for (int i = 0; i < Master.planesNumber; i++)
     {
-        printf("ID d'avion %d est: %d\n", enumeration, Master.planes[i].ID);
-        enumeration++;
+        printf("ID d'avion %d est: %d\n", i+1, Master.planes[i].ID);
+        
     }
 
     printf("entrer l'ID de l'avion a modifier: ");
@@ -238,6 +238,7 @@ void DeletePlane(){
         } else
         {
             printf("Aucun avion avec l'ID %d n'a ete trouve.\n", id);
+            return;
         }
     }
     Master.planesNumber--;
@@ -370,17 +371,16 @@ void Statistics(){
     return ;
 }
 
-void Search() {
+void SearchPlane() {
     int searchID, choice, verification = 0;
     char searchModel[20];
-    plane temp;
 
-    printf("Choisir:\n1. Par ID.\n2. Par Model.\n");
+    printf("Choisir:\n1.Recherch Par ID.\n2.Recherch Par Model.\n");
     scanf("%d", &choice);
 
     switch (choice) {
     case 1: {
-        int enumeration = 1;
+        
         for (int i = 0; i < Master.planesNumber; i++) {
             for (int j = i+1; j < Master.planesNumber; j++) {
                 if (Master.planes[i].ID > Master.planes[j].ID) {
@@ -392,8 +392,8 @@ void Search() {
         }
 
         for (int i = 0; i < Master.planesNumber; i++) {
-            printf("ID d'avion %d est: %d\n", enumeration, Master.planes[i].ID);
-            enumeration++;
+            printf("ID d'avion %d est: %d\n", i+1, Master.planes[i].ID);
+            
         }
 
         printf("Entrer l'ID de l'avion a rechercher: ");
@@ -419,61 +419,24 @@ void Search() {
     }
 
     case 2: {
-        int enumeration = 1;
         for (int i = 0; i < Master.planesNumber; i++) {
-            for (int j = i+1; j < Master.planesNumber; j++) {
-                if (stricmp(Master.planes[i].Model, Master.planes[j].Model) > 0) {
-                    temp = Master.planes[i];
-                    Master.planes[i] = Master.planes[j];
-                    Master.planes[j] = temp;
-                }
-            }
-        }
-
-        for (int i = 0; i < Master.planesNumber; i++) {
-            printf("Le model d'avion %d est: %s\n", enumeration, Master.planes[i].Model);
-            enumeration++;
+            printf("Le model d'avion %d est: %s\n", i+1, Master.planes[i].Model);
         }
 
         printf("Entrer le model de l'avion a rechercher: ");
         scanf(" %[^\n]%*c", searchModel);
 
-        int left = 0, right = Master.planesNumber - 1, found = 0;
-        while (left <= right) {
-            int mid = (left + right) / 2;
-            int cmp = stricmp(Master.planes[mid].Model, searchModel);
-
-            if (cmp == 0) {
-                printf("Avions trouves avec le model %s:\n", searchModel);
-
-                int i = mid;
-                while (i >= 0 && stricmp(Master.planes[i].Model, searchModel) == 0) {
-                    i--;
-                }
-                i++;
-
-                while (i < Master.planesNumber && stricmp(Master.planes[i].Model, searchModel) == 0) {
-                    printf("L'id---->%d\nl'model---->%s\nl'capacite---->%d\nl'statut---->%s\n",Master.planes[mid].ID, Master.planes[mid].Model, Master.planes[mid].Capacity, Master.planes[mid].Status);
-                           
-                    i++;
-                }
-                found = 1;
-                break;
-            } else if (cmp < 0) {
-                left = mid + 1;
-            } else {
-                right = mid - 1;
-            }
+        for (int i = 0; i < Master.planesNumber; i++)
+        {
+            if (stricmp(searchModel, Master.planes[i].Model)==0)
+            {
+                printf("L'id---->%d\nl'model---->%s\nl'capacite---->%d\nl'statut---->%s\n",Master.planes[i].ID, Master.planes[i].Model, Master.planes[i].Capacity, Master.planes[i].Status);
+                verification = 1;
+            } else if (verification != 1)
+            {
+                printf("avion non trouver");
+            } 
         }
-
-        if (!found) {
-            printf("Aucun avion avec le model %s\n", searchModel);
-        }
-        break;
-    }
-
-    default:
-        printf("Choix invalide.\n");
-        return;
+}
     }
 }
