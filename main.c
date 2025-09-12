@@ -74,7 +74,7 @@ int main(){
      case 5:
         {
             printf("vous avez choisi la recherche\n");
-            Search()
+            Search();
         }break;
      case 6:
         {
@@ -403,11 +403,7 @@ void Search() {
         while (left <= right) {
             int middle = (left + right) / 2;
             if (searchID == Master.planes[middle].ID) {
-                printf("Avion trouve:\nID: %d | Model: %s | Capacite: %d | Statut: %s\n",
-                       Master.planes[middle].ID,
-                       Master.planes[middle].Model,
-                       Master.planes[middle].Capacity,
-                       Master.planes[middle].Status);
+                printf("L'id---->%d\nl'model---->%s\nl'capacite---->%d\nl'statut---->%s\n",Master.planes[middle].ID, Master.planes[middle].Model, Master.planes[middle].Capacity, Master.planes[middle].Status);
                 verification = 1;
                 break;
             } else if (searchID > Master.planes[middle].ID) {
@@ -457,7 +453,7 @@ void Search() {
                 i++;
 
                 while (i < Master.planesNumber && stricmp(Master.planes[i].Model, searchModel) == 0) {
-                    printf("L'id---->%d\nl'model---->%s\nl'capacite---->%d\nl'statut---->%s\n",Master.planes[mid].ID, Master.planes[mid].Model, Master.planes[mid].Capacity );
+                    printf("L'id---->%d\nl'model---->%s\nl'capacite---->%d\nl'statut---->%s\n",Master.planes[mid].ID, Master.planes[mid].Model, Master.planes[mid].Capacity, Master.planes[mid].Status);
                            
                     i++;
                 }
